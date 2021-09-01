@@ -1,0 +1,16 @@
+{
+    "blogs": [
+        {
+            "id": 1,
+            "title": "math",
+            "body": "lai as asdasd asdasdasdgrdg jdsgk nkr gnerrnkg f",
+            "author": "mario"
+        },
+        {
+            "id": 2,
+            "title": "medical",
+            "body": "asg jdsgk nkr gnerrnkg f",
+            "author": "esmaeil"
+        }
+    ]
+}
