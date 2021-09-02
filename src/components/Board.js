@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Timer from "./Timer";
 import Card from "./Card";
 import { Link } from "react-router-dom";
-import $ from 'jquery';
+import $ from "jquery";
 // import Button from "react-bootstrap/Button";
 // import Form from "react-bootstrap/Form";
 
@@ -21,7 +21,12 @@ const Board = (props) => {
   const [counter, setCounter] = useState(0);
 
   const onCardClick = (card) => () => {
-    if (checkersFull(checkers) || cardAlreadyInCheckers(checkers, card) || card.done) return;
+    if (
+      checkersFull(checkers) ||
+      cardAlreadyInCheckers(checkers, card) ||
+      card.done
+    )
+      return;
     const newCheckers = [...checkers, card];
     setCheckers(newCheckers);
     const cardsInCheckersMatched = validateCheckers(newCheckers);
@@ -34,17 +39,38 @@ const Board = (props) => {
       resetCheckersAfter(1000);
     }
     function validateCheckers(checkers) {
-      return checkers.length === 2 && checkers[0].type === checkers[1].type;
+      if (props.similar === 2) {
+        return checkers.length === 2 && checkers[0].type === checkers[1].type;
+      } else if (props.similar === 3) {
+        return (
+          checkers.length === 3 &&
+          checkers[0].type === checkers[1].type &&
+          checkers[1].type === checkers[2].type
+        );
+      } else if (props.similar === 4) {
+        return (
+          checkers.length === 4 &&
+          checkers[0].type === checkers[1].type &&
+          checkers[1].type === checkers[2].type &&
+          checkers[2].type === checkers[3].type
+        );
+      }
     }
     function cardAlreadyInCheckers(checkers, card) {
-      return checkers.length === 1 && checkers[0].id === card.id;
+      if (checkers.length === 1) {
+        return checkers[0].id === card.id;
+      } else if (checkers.length === 2) {
+        return checkers[0].id === card.id || checkers[1].id === card.id;
+      } else if (checkers.length === 3) {
+        return checkers[0].id === card.id || checkers[1].id === card.id || checkers[2].id === card.id;
+      }
     }
     function checkersFull(checkers) {
-      return checkers.length === 2;
+      return checkers.length === props.similar;
     }
     function resetCheckersAfter(time) {
       setTimeout(() => {
-        if(cardsInCheckersMatched) {
+        if (cardsInCheckersMatched) {
           // setCards(cards.filter(card => card.type !== checkers[0].type))
           card.done = true; // opacity must be 0
         }
@@ -107,12 +133,12 @@ const Board = (props) => {
     if (document.getElementById("ranking").style.display === "block") {
       document.getElementById("ranking").style.display = "none";
       // $('#App').css("webkitFilter","blur(0px)");
-      $('#App').css("background-color","rgb(242, 242, 242, 1)");
-      $('#img-card').css("background-color","");
+      $("#App").css("background-color", "rgb(242, 242, 242, 1)");
+      $("#img-card").css("background-color", "");
     } else {
       document.getElementById("ranking").style.display = "block";
-      $('#App').css("background-color","gray");
-      $('#img-card').css("background-color","gray");
+      $("#App").css("background-color", "gray");
+      $("#img-card").css("background-color", "gray");
       // $('#App').css("webkitFilter","blur(3px)");
       // $('#ranking').css("webkitFilter","blur(0px)");
       // document.getElementById("App").style.webkitFilter = "blur(3px)";
@@ -124,7 +150,9 @@ const Board = (props) => {
   return (
     <div className="board-main">
       <div className="ranking" id="ranking">
-        <div className="time-2">Your Time:{hour}:{minute}:{second}</div>
+        <div className="time-2">
+          Your Time:{hour}:{minute}:{second}
+        </div>
         {/* <span className="text-2">Your Time:</span>
         <span className="time-2">
           <span className="hour-2">{hour}</span>
@@ -134,7 +162,7 @@ const Board = (props) => {
           <span className="second-2">{second}</span>
         </span> */}
         <div className="rank-div">
-          <Table striped hover  variant="gray">
+          <Table striped hover variant="gray">
             <thead>
               <tr>
                 <th>Rate</th>
@@ -160,7 +188,9 @@ const Board = (props) => {
               PLAY AGAIN
             </Button>
             <Link to="/">
-              <Button variant="secondary" onClick={ExitButton}>EXIT</Button>
+              <Button variant="secondary" onClick={ExitButton}>
+                EXIT
+              </Button>
             </Link>
           </div>
         </div>
@@ -187,7 +217,17 @@ const Board = (props) => {
         {/* </Link> */}
       </div>
       <hr />
-      <div className="Board">
+      <div
+        className={
+          props.size === 24
+            ? "Board-4-6"
+            : props.size === 36
+            ? "Board-6-6"
+            : props.size === 48
+            ? "Board-6-8"
+            : ""
+        }
+      >
         {cards.map((card) => (
           <Card {...card} onClick={onCardClick(card)} key={card.id} />
         ))}

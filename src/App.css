@@ -3,14 +3,29 @@
   max-width: 50%;
   margin: auto; */
   background-color: rgb(242, 242, 242, 1);
-  height: 100vh;
+  min-height: 100vh;
   padding-top: 50px;
   /* -webkit-filter: blur(3px); */
 }
 
+* {
+  font-family: 'Varela Round', sans-serif;
+}
+html {
+  min-height: 100vh;
+}
+
+body {
+   margin:0;
+   min-height: 100vh;
+   
+  }
+
 
 #root {
   top: 0;
+  bottom: 0;
+  min-height: 100hv;
 }
 
 .name-main {
@@ -78,7 +93,7 @@
   height: 100px;
 }
 
-.Board {
+.Board-4-6 {
   /* height: 450px;
   width: 450px;
   display: flex;
@@ -86,10 +101,28 @@
   align-items: center;
   flex-wrap: wrap */
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-columns: 16.66% 16.66% 16.66% 16.66% 16.66% 16.66%;
   grid-gap: 10px;
   height: 450px;
-  width: 450px;
+  width: 650px;
+  margin: 0 auto;
+}
+
+.Board-6-6 {
+  display: grid;
+  grid-template-columns: 16.66% 16.66% 16.66% 16.66% 16.66% 16.66%;
+  grid-gap: 10px;
+  height: 650px;
+  width: 650px;
+  margin: 0 auto;
+}
+
+.Board-6-8 {
+  display: grid;
+  grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+  grid-gap: 10px;
+  height: 650px;
+  width: 850px;
   margin: 0 auto;
 }
 
@@ -123,7 +156,7 @@
 
 .time-2 {
   font-weight: bold;
-  color: #050303;
+  color: #af1212;
   font-family: 'Raleway',sans-serif;
   font-size: 30px;
   font-weight: 800; 
@@ -131,3 +164,22 @@
   margin: 0 0 24px; 
   text-align: center;
 }
+
+.button-label1 {
+  font-weight: bold;
+  font-size: 20px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.button-label2 {
+  font-weight: bold;
+  font-size: 20px;
+  display: inline-block;
+  margin-right: 48px;
+}
+
+Button {
+  min-width: 70px;
+}
+
