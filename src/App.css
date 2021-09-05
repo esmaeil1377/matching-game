@@ -48,10 +48,11 @@ body {
 
 .board-name {
   display: grid;
-  grid-template-columns: 45% 20% 25% 10%;
+  grid-template-columns: 35% 15% 20% 10% 20%;
   grid-gap: 10px;
-  width: 50%;
+  width: 75%;
   margin: auto;
+  margin-left: 20%;
 }
 
 /* .board-name > h3, h4 {
@@ -81,7 +82,7 @@ body {
 }
 
 .Card{
-  flex: 1
+  flex: 1;
 }
 
 .Card:hover{
@@ -139,6 +140,19 @@ body {
   margin-top: 10%;
 }
 
+.ranking-2 {
+  display: none;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 40%;
+  height: 50%;
+  z-index: 1;
+  margin-top: 10%;
+}
+
 .rank-div {
   background-color: white;
   padding: 20px;
@@ -155,14 +169,16 @@ body {
 }
 
 .time-2 {
-  font-weight: bold;
-  color: #af1212;
+  font-weight:normal;
+  color: #82ff1c;
   font-family: 'Raleway',sans-serif;
-  font-size: 30px;
-  font-weight: 800; 
   line-height: 36px; 
   margin: 0 0 24px; 
   text-align: center;
+  font-size: 36px;
+	line-height: 42px;
+	text-transform: uppercase;
+	text-shadow: 0 2px white, 0 3px #777;
 }
 
 .button-label1 {
@@ -182,4 +198,5 @@ body {
 Button {
   min-width: 70px;
 }
+
 

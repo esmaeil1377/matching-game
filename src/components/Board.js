@@ -10,17 +10,66 @@ import $ from "jquery";
 // import Form from "react-bootstrap/Form";
 
 const Board = (props) => {
+  // const [cards, setCards] = useState(() => {
+  //   for (const item of props.players) {
+  //     if (item.name === props.name) {
+  //       return item.cards;
+  //     }
+  //   }
+  // });
   const [cards, setCards] = useState(props.cards);
   const [checkers, setCheckers] = useState([]);
   const [completed, setCompleted] = useState([]);
+  const [score, setScore] = useState(() => {
+    for (const item of props.players) {
+      if (item.name === props.name) {
+        return item.score;
+      }
+    }
+    return 0;
+  });
+  const [endGame, setEndGame] = useState(false);
 
-  const [second, setSecond] = useState("00");
-  const [minute, setMinute] = useState("00");
-  const [hour, setHour] = useState("00");
+  const [second, setSecond] = useState(() => {
+    for (const item of props.players) {
+      if (item.name === props.name) {
+        return item.time.split(":")[2]
+      }
+    }
+    return "00";
+  });
+  const [minute, setMinute] = useState(() => {
+    for (const item of props.players) {
+      if (item.name === props.name) {
+        return item.time.split(":")[1]
+      }
+    }
+    return "00";
+  });
+  const [hour, setHour] = useState(() => {
+    for (const item of props.players) {
+      if (item.name === props.name) {
+        return item.time.split(":")[0]
+      }
+    }
+    return "00";
+  });
   const [isActive, setIsActive] = useState(true);
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(() => {
+    for (const item of props.players) {
+      if (item.name === props.name) {
+        return (
+          parseInt(item.time.split(":")[2]) +
+          parseInt(item.time.split(":")[1]) * 60 +
+          parseInt(item.time.split(":")[0]) * 3600
+        );
+      }
+    }
+    return 0;
+  });
 
   const onCardClick = (card) => () => {
+    document.querySelector(".Card").classList.toggle("is-flipped");
     if (
       checkersFull(checkers) ||
       cardAlreadyInCheckers(checkers, card) ||
@@ -32,7 +81,20 @@ const Board = (props) => {
     const cardsInCheckersMatched = validateCheckers(newCheckers);
     if (cardsInCheckersMatched) {
       setCompleted([...completed, newCheckers[0].type]);
-      // setCards(cards.filter(card => card.type !== newCheckers[0].type))
+      setScore(score + props.similar);
+      // setCards(cards.filtser(card => card.type !== newCheckers[0].type))
+      card.done = true;
+      cards.forEach(function (item) {
+        if (item.type === newCheckers[0].type) {
+          item.done = true;
+        }
+      });
+      // console.log(completed.length);
+      // console.log(props.size / props.similar);
+      if (completed.length + 1 === props.size / props.similar) {
+        setEndGame(true);
+      }
+
       console.log("matched");
     }
     if (checkersFull(newCheckers)) {
@@ -62,7 +124,11 @@ const Board = (props) => {
       } else if (checkers.length === 2) {
         return checkers[0].id === card.id || checkers[1].id === card.id;
       } else if (checkers.length === 3) {
-        return checkers[0].id === card.id || checkers[1].id === card.id || checkers[2].id === card.id;
+        return (
+          checkers[0].id === card.id ||
+          checkers[1].id === card.id ||
+          checkers[2].id === card.id
+        );
       }
     }
     function checkersFull(checkers) {
@@ -71,8 +137,13 @@ const Board = (props) => {
     function resetCheckersAfter(time) {
       setTimeout(() => {
         if (cardsInCheckersMatched) {
-          // setCards(cards.filter(card => card.type !== checkers[0].type))
-          card.done = true; // opacity must be 0
+          // console.log("empty");
+          // card.done = true;
+          // cards.forEach(function (item) {
+          //   if (item.type === newCheckers[0].type) {
+          //     item.done = true;
+          //   }
+          // });
         }
         setCheckers([]);
       }, time);
@@ -108,7 +179,7 @@ const Board = (props) => {
     }
 
     return () => clearInterval(intervalId);
-  }, [isActive, counter]);
+  }, [isActive, counter, second, minute, hour]);
 
   function stopTimer() {
     setIsActive(false);
@@ -117,6 +188,27 @@ const Board = (props) => {
     // setMinute("00");
     // setHour("00");
   }
+
+  function ResetTimer() {
+    setCounter(0);
+    setSecond("00");
+    setMinute("00");
+    setHour("00");
+  }
+
+  useEffect(() => {
+    if (endGame === true) {
+      console.log(endGame);
+      if (document.getElementById("ranking-2").style.display === "block") {
+        document.getElementById("ranking-2").style.display = "none";
+        $("#App").css("background-color", "rgb(242, 242, 242, 1)");
+      } else {
+        document.getElementById("ranking-2").style.display = "block";
+        $("#App").css("background-color", "gray");
+      }
+      setIsActive(!isActive);
+    }
+  }, [endGame]);
 
   useEffect(() => {
     const newCards = cards.map((card) => ({
@@ -127,24 +219,103 @@ const Board = (props) => {
     setCards(newCards);
   }, [checkers, completed]);
 
+  const toSecond = (timeStr) => {
+    const nums = timeStr.split(":");
+    return (
+      parseInt(nums[0]) * 60 * 60 + parseInt(nums[1]) * 60 + parseInt(nums[2])
+    );
+  };
+
+  const compareTime = (a, b) => {
+    if (toSecond(a.time) < toSecond(b.time)) {
+      return -1;
+    }
+    if (toSecond(a.time) > toSecond(b.time)) {
+      return 1;
+    }
+    return 0;
+  };
+
   const ExitButton = () => {
-    // var searchbar = document.getElementsByClassName("ranking");
-    // searchbar.style.display = "block";
     if (document.getElementById("ranking").style.display === "block") {
       document.getElementById("ranking").style.display = "none";
-      // $('#App').css("webkitFilter","blur(0px)");
       $("#App").css("background-color", "rgb(242, 242, 242, 1)");
-      $("#img-card").css("background-color", "");
     } else {
       document.getElementById("ranking").style.display = "block";
       $("#App").css("background-color", "gray");
-      $("#img-card").css("background-color", "gray");
-      // $('#App').css("webkitFilter","blur(3px)");
-      // $('#ranking').css("webkitFilter","blur(0px)");
-      // document.getElementById("App").style.webkitFilter = "blur(3px)";
-      // document.getElementById("rancking").style.webkitFilter = "blur(0px)";
     }
     setIsActive(!isActive);
+  };
+
+  const ExitButtonAll = () => {
+    if (document.getElementById("ranking").style.display === "block") {
+      document.getElementById("ranking").style.display = "none";
+      $("#App").css("background-color", "rgb(242, 242, 242, 1)");
+    } else {
+      document.getElementById("ranking").style.display = "block";
+      $("#App").css("background-color", "gray");
+    }
+    setIsActive(!isActive);
+    // let flag = false;
+    // for (const item of props.players) {
+    //   if (item.name === props.name) {
+    //     flag = true
+    //     item.cards = cards;
+    //     item.score = score;
+    //     item.time = [hour, minute, second].join(":");
+    //     item.end = endGame;
+    //   }
+    // }
+    props.setPlayers([
+      ...props.players.filter((player) => player.name !== props.name),
+      {
+        id: Math.random() * 1000,
+        name: props.name,
+        cards: cards,
+        score: score,
+        time: [hour, minute, second].join(":"),
+        end: endGame,
+        similar: props.similar,
+        size: props.size,
+      },
+    ]);
+  };
+
+  const PlayAgain = () => {
+    if (document.getElementById("ranking-2").style.display === "block") {
+      document.getElementById("ranking-2").style.display = "none";
+      $("#App").css("background-color", "rgb(242, 242, 242, 1)");
+    } else {
+      document.getElementById("ranking-2").style.display = "block";
+      $("#App").css("background-color", "gray");
+    }
+    setIsActive(!isActive);
+  };
+
+  const ExitButtonAll2 = () => {
+    if (document.getElementById("ranking-2").style.display === "block") {
+      document.getElementById("ranking-2").style.display = "none";
+      $("#App").css("background-color", "rgb(242, 242, 242, 1)");
+    } else {
+      document.getElementById("ranking-2").style.display = "block";
+      $("#App").css("background-color", "gray");
+    }
+    setIsActive(!isActive);
+    props.setRankPlayers(
+      [
+        ...props.rankPlayers,
+        {
+          id: Math.random() * 1000,
+          name: props.name,
+          cards: cards,
+          score: score,
+          time: [hour, minute, second].join(":"),
+          end: endGame,
+          similar: props.similar,
+          size: props.size,
+        },
+      ].sort(compareTime)
+    );
   };
 
   return (
@@ -153,14 +324,6 @@ const Board = (props) => {
         <div className="time-2">
           Your Time:{hour}:{minute}:{second}
         </div>
-        {/* <span className="text-2">Your Time:</span>
-        <span className="time-2">
-          <span className="hour-2">{hour}</span>
-          <span>:</span>
-          <span className="minute-2">{minute}</span>
-          <span>:</span>
-          <span className="second-2">{second}</span>
-        </span> */}
         <div className="rank-div">
           <Table striped hover variant="gray">
             <thead>
@@ -173,8 +336,8 @@ const Board = (props) => {
             <tbody>
               <tr>
                 <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
+                <td>d</td>
+                <td>r</td>
               </tr>
               <tr>
                 <td>2</td>
@@ -185,10 +348,49 @@ const Board = (props) => {
           </Table>
           <div className="rank-buttons">
             <Button variant="dark" onClick={ExitButton}>
+              CUNTINUE
+            </Button>
+            <Link to="/">
+              <Button variant="secondary" onClick={ExitButtonAll}>
+                EXIT
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="ranking-2" id="ranking-2">
+        <div className="time-2">
+          Your Time:{hour}:{minute}:{second}
+        </div>
+        <div className="rank-div">
+          <Table striped hover variant="gray">
+            <thead>
+              <tr>
+                <th>Rate</th>
+                <th>Name</th>
+                <th colSpan="2">Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>e</td>
+                <td>w</td>
+                {/* {props.players[0].time} */}
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Jacob</td>
+                <td>Thornton</td>
+              </tr>
+            </tbody>
+          </Table>
+          <div className="rank-buttons">
+            <Button variant="dark" onClick={PlayAgain}>
               PLAY AGAIN
             </Button>
             <Link to="/">
-              <Button variant="secondary" onClick={ExitButton}>
+              <Button variant="secondary" onClick={ExitButtonAll2}>
                 EXIT
               </Button>
             </Link>
@@ -214,7 +416,7 @@ const Board = (props) => {
         <Button variant="secondary" onClick={ExitButton}>
           Exit
         </Button>
-        {/* </Link> */}
+        <h5>Score: {score}</h5>
       </div>
       <hr />
       <div

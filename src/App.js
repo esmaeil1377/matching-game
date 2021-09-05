@@ -20,49 +20,77 @@ function suffle(arr) {
 }
 
 function App() {
+  const LOCAL_PLAYERS_STORAGE_KEY = "players";
+  const [players, setPlayers] = useState([]);
+  const LOCAL_RANK_PLAYERS_STORAGE_KEY = "rankPlayers";
+  const [rankPlayers, setRankPlayers] = useState([]);
   const LOCAL_NAME_STORAGE_KEY = "name";
   const [name, setName] = useState("");
-  const [imageData, setImageData] = useState([]);
+  // const [imageData, setImageData] = useState([]);
   const LOCAL_SIZE_STORAGE_KEY = "size";
   const [size, setSize] = useState(24);
   const LOCAL_SIMILAR_STORAGE_KEY = "similar";
   const [similar, setSimilar] = useState(2);
+  const [cards, setCards] = useState([]);
   useEffect(() => {
     axios
       .get(
-        `https://sahabino-front.herokuapp.com/placeholder/get-by-size?size=${size/similar}`,
+        `https://sahabino-front.herokuapp.com/placeholder/get-by-size?size=${
+          size / similar
+        }`,
         {
           headers: { "Access-Control-Allow-Origin": "*" },
           responseType: "json",
         }
       )
       .then((res) => {
-        setImageData(res.data);
+        // setImageData(res.data);
+        let id2 = 0;
+        const cardsT = res.data.reduce((result, item) => {
+          const getCard = () => ({
+            id: id2++,
+            type: item.name.slice(0, item.name.indexOf(".")),
+            done: false,
+            backImg: backImg,
+            frontImg: item.imageUrl,
+            flipped: false,
+          });
+          if (similar === 2) {
+            return [...result, getCard(), getCard()];
+          } else if (similar === 3) {
+            return [...result, getCard(), getCard(), getCard()];
+          } else if (similar === 4) {
+            return [...result, getCard(), getCard(), getCard(), getCard()];
+          }
+        }, []);
+
+        setCards(suffle(cardsT));
       });
   }, [size, similar]);
-  let id2 = 0;
-  const cardsT = imageData.reduce((result, item) => {
-    const getCard = () => ({
-      id: id2++,
-      type: item.name.slice(0, item.name.indexOf(".")),
-      done: false,
-      backImg: backImg,
-      frontImg: item.imageUrl,
-      flipped: false,
-    });
-    if (similar === 2) {
-      return [...result, getCard(), getCard()];
-    } else if(similar === 3) {
-      return [...result, getCard(), getCard(), getCard()];
-    } else if(similar === 4) {
-      return [...result, getCard(), getCard(), getCard(), getCard()];
-    }
-  }, []);
-
-  const cards = suffle(cardsT);
 
   const nameHandler = (newName) => {
     setName(newName);
+    // setCards(players.map((item) => {
+    //   if(item.name === newName) {
+    //     return item.cards;
+    //   }
+    // }))
+    // setCards(() => {
+    //   for (const item of players) {
+    //     if (item.name === newName) {
+    //       return item.cards;
+    //     }
+    //   }
+    // })
+    for (const item of players) {
+      if (item.name === newName) {
+        console.log("same");
+        console.log(item.cards)
+        setCards(item.cards)
+        setSimilar(item.similar)
+        setSize(item.size)
+      }
+    }
   };
 
   const sizeHandler = (newSize) => {
@@ -74,10 +102,10 @@ function App() {
   };
 
   useEffect(() => {
-    const retriveContacts = JSON.parse(
+    const retriveName = JSON.parse(
       localStorage.getItem(LOCAL_NAME_STORAGE_KEY)
     );
-    if (retriveContacts) setName(retriveContacts);
+    if (retriveName) setName(retriveName);
   }, []);
 
   useEffect(() => {
@@ -85,10 +113,10 @@ function App() {
   }, [name]);
 
   useEffect(() => {
-    const retriveContacts = JSON.parse(
+    const retriveSize = JSON.parse(
       localStorage.getItem(LOCAL_SIZE_STORAGE_KEY)
     );
-    if (retriveContacts) setSize(retriveContacts);
+    if (retriveSize) setSize(retriveSize);
   }, []);
 
   useEffect(() => {
@@ -96,15 +124,40 @@ function App() {
   }, [size]);
 
   useEffect(() => {
-    const retriveContacts = JSON.parse(
+    const retriveSimilar = JSON.parse(
       localStorage.getItem(LOCAL_SIMILAR_STORAGE_KEY)
     );
-    if (retriveContacts) setSimilar(retriveContacts);
+    if (retriveSimilar) setSimilar(retriveSimilar);
   }, []);
 
   useEffect(() => {
     localStorage.setItem(LOCAL_SIMILAR_STORAGE_KEY, JSON.stringify(similar));
   }, [similar]);
+
+  useEffect(() => {
+    const retrivePlayers = JSON.parse(
+      localStorage.getItem(LOCAL_PLAYERS_STORAGE_KEY)
+    );
+    if (retrivePlayers) setPlayers(retrivePlayers);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_PLAYERS_STORAGE_KEY, JSON.stringify(players));
+  }, [players]);
+
+  useEffect(() => {
+    const retriveRankPlayers = JSON.parse(
+      localStorage.getItem(LOCAL_RANK_PLAYERS_STORAGE_KEY)
+    );
+    if (retriveRankPlayers) setPlayers(retriveRankPlayers);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      LOCAL_RANK_PLAYERS_STORAGE_KEY,
+      JSON.stringify(rankPlayers)
+    );
+  }, [rankPlayers]);
 
   return (
     <div className="App" id="App">
@@ -124,7 +177,16 @@ function App() {
           <Route
             path="/board"
             component={() => (
-              <Board name={name} cards={cards} size={size} similar={similar} />
+              <Board
+                players={players}
+                name={name}
+                cards={cards}
+                size={size}
+                similar={similar}
+                setPlayers={setPlayers}
+                rankPlayers={rankPlayers}
+                setRankPlayers={setRankPlayers}
+              />
             )}
           />
         </Switch>
