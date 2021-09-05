@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import backImg from "./assets/images/back.png";
+import RankTable from "./components/RankTable"
 function suffle(arr) {
   let len = arr.length;
   for (let i = 0; i < len; i++) {
@@ -167,11 +168,14 @@ function App() {
             path="/"
             exact
             component={() => (
+              <div>
               <InputName
                 nameHandler={nameHandler}
                 sizeHandler={sizeHandler}
                 similarHandler={similarHandler}
               />
+              <RankTable rankPlayers={rankPlayers} />
+              </div>
             )}
           />
           <Route

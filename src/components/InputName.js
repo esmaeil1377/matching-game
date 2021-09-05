@@ -156,6 +156,7 @@ const InputName = (props) => {
             type="submit"
             style={{ marginTop: "20px" }}
             onClick={handleSubmit}
+            required
           >
             Start
           </Button>

@@ -33,7 +33,7 @@ const Board = (props) => {
   const [second, setSecond] = useState(() => {
     for (const item of props.players) {
       if (item.name === props.name) {
-        return item.time.split(":")[2]
+        return item.time.split(":")[2];
       }
     }
     return "00";
@@ -41,7 +41,7 @@ const Board = (props) => {
   const [minute, setMinute] = useState(() => {
     for (const item of props.players) {
       if (item.name === props.name) {
-        return item.time.split(":")[1]
+        return item.time.split(":")[1];
       }
     }
     return "00";
@@ -49,7 +49,7 @@ const Board = (props) => {
   const [hour, setHour] = useState(() => {
     for (const item of props.players) {
       if (item.name === props.name) {
-        return item.time.split(":")[0]
+        return item.time.split(":")[0];
       }
     }
     return "00";
@@ -198,6 +198,21 @@ const Board = (props) => {
 
   useEffect(() => {
     if (endGame === true) {
+      // props.setRankPlayers(
+      //   [
+      //     ...props.rankPlayers.filter((player) => player.name !== props.name),
+      //     {
+      //       id: Math.random() * 1000,
+      //       name: props.name,
+      //       cards: cards,
+      //       score: score,
+      //       time: [hour, minute, second].join(":"),
+      //       end: endGame,
+      //       similar: props.similar,
+      //       size: props.size,
+      //     },
+      //   ].sort(compareTime)
+      // );
       console.log(endGame);
       if (document.getElementById("ranking-2").style.display === "block") {
         document.getElementById("ranking-2").style.display = "none";
@@ -237,6 +252,19 @@ const Board = (props) => {
   };
 
   const ExitButton = () => {
+    // for (const item of props.rankPlayers) {
+    //   var row = document.createElement("tr");
+    //   var cell = document.createElement("td");
+    //   cell.textContent = 1;
+    //   row.appendChild(cell);
+    //   var cell2 = document.createElement("td");
+    //   cell.textContent = item.name;
+    //   row.appendChild(cell2);
+    //   var cell3 = document.createElement("td");
+    //   cell.textContent = item.time;
+    //   row.appendChild(cell3);
+    //   document.getElementById("rank-table").appendChild(row);
+    // }
     if (document.getElementById("ranking").style.display === "block") {
       document.getElementById("ranking").style.display = "none";
       $("#App").css("background-color", "rgb(242, 242, 242, 1)");
@@ -303,7 +331,7 @@ const Board = (props) => {
     setIsActive(!isActive);
     props.setRankPlayers(
       [
-        ...props.rankPlayers,
+        ...props.rankPlayers.filter((player) => player.name !== props.name),
         {
           id: Math.random() * 1000,
           name: props.name,
@@ -318,6 +346,19 @@ const Board = (props) => {
     );
   };
 
+  const renderTableData = () => {
+    return props.rankPlayers.map((item, index) => {
+      //  const { id, name, age, email } = student //destructuring
+      return (
+        <tr>
+          <td className="highLight">{index + 1}</td>
+          <td>{item.name}</td>
+          <td>{item.time}</td>
+        </tr>
+      );
+    });
+  };
+
   return (
     <div className="board-main">
       <div className="ranking" id="ranking">
@@ -325,7 +366,7 @@ const Board = (props) => {
           Your Time:{hour}:{minute}:{second}
         </div>
         <div className="rank-div">
-          <Table striped hover variant="gray">
+          <Table striped hover variant="gray" id="rank-table">
             <thead>
               <tr>
                 <th>Rate</th>
@@ -333,18 +374,7 @@ const Board = (props) => {
                 <th colSpan="2">Time</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>d</td>
-                <td>r</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-              </tr>
-            </tbody>
+            <tbody>{renderTableData()}</tbody>
           </Table>
           <div className="rank-buttons">
             <Button variant="dark" onClick={ExitButton}>
@@ -363,7 +393,7 @@ const Board = (props) => {
           Your Time:{hour}:{minute}:{second}
         </div>
         <div className="rank-div">
-          <Table striped hover variant="gray">
+          <Table striped hover variant="gray" id="rank-table">
             <thead>
               <tr>
                 <th>Rate</th>
@@ -371,19 +401,7 @@ const Board = (props) => {
                 <th colSpan="2">Time</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>e</td>
-                <td>w</td>
-                {/* {props.players[0].time} */}
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-              </tr>
-            </tbody>
+            <tbody>{renderTableData()}</tbody>
           </Table>
           <div className="rank-buttons">
             <Button variant="dark" onClick={PlayAgain}>
