@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import InputName from "./components/InputName";
 import Board from "./components/Board";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import backImg from "./assets/images/back.png";
 import RankTable from "./components/RankTable"
@@ -33,12 +33,11 @@ function App() {
   const LOCAL_SIMILAR_STORAGE_KEY = "similar";
   const [similar, setSimilar] = useState(2);
   const [cards, setCards] = useState([]);
+  const refApp = useRef(null);
   useEffect(() => {
     axios
       .get(
-        `https://sahabino-front.herokuapp.com/placeholder/get-by-size?size=${
-          size / similar
-        }`,
+        `https://sahabino-front.herokuapp.com/placeholder/get-by-size?size=${size/similar}`,
         {
           headers: { "Access-Control-Allow-Origin": "*" },
           responseType: "json",
@@ -161,7 +160,7 @@ function App() {
   }, [rankPlayers]);
 
   return (
-    <div className="App" id="App">
+    <div className="App" id="App" ref={refApp}>
       <Router>
         <Switch>
           <Route
@@ -190,6 +189,7 @@ function App() {
                 setPlayers={setPlayers}
                 rankPlayers={rankPlayers}
                 setRankPlayers={setRankPlayers}
+                refApp={refApp}
               />
             )}
           />

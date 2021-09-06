@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Timer from "./Timer";
 import Card from "./Card";
 import { Link } from "react-router-dom";
@@ -67,6 +67,8 @@ const Board = (props) => {
     }
     return 0;
   });
+  const ref1 = useRef(null);
+  const ref2 = useRef(null);
 
   const onCardClick = (card) => () => {
     document.querySelector(".Card").classList.toggle("is-flipped");
@@ -214,12 +216,12 @@ const Board = (props) => {
       //   ].sort(compareTime)
       // );
       console.log(endGame);
-      if (document.getElementById("ranking-2").style.display === "block") {
-        document.getElementById("ranking-2").style.display = "none";
-        $("#App").css("background-color", "rgb(242, 242, 242, 1)");
+      if (ref2.current.style.display === "block") {
+        ref2.current.style.display = "none";
+        props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
       } else {
-        document.getElementById("ranking-2").style.display = "block";
-        $("#App").css("background-color", "gray");
+        ref2.current.style.display = "block";
+        props.refApp.current.style.backgroundColor = "gray";
       }
       setIsActive(!isActive);
     }
@@ -252,36 +254,23 @@ const Board = (props) => {
   };
 
   const ExitButton = () => {
-    // for (const item of props.rankPlayers) {
-    //   var row = document.createElement("tr");
-    //   var cell = document.createElement("td");
-    //   cell.textContent = 1;
-    //   row.appendChild(cell);
-    //   var cell2 = document.createElement("td");
-    //   cell.textContent = item.name;
-    //   row.appendChild(cell2);
-    //   var cell3 = document.createElement("td");
-    //   cell.textContent = item.time;
-    //   row.appendChild(cell3);
-    //   document.getElementById("rank-table").appendChild(row);
-    // }
-    if (document.getElementById("ranking").style.display === "block") {
-      document.getElementById("ranking").style.display = "none";
-      $("#App").css("background-color", "rgb(242, 242, 242, 1)");
+    if (ref1.current.style.display === "block") {
+      ref1.current.style.display = "none";
+      props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
     } else {
-      document.getElementById("ranking").style.display = "block";
-      $("#App").css("background-color", "gray");
+      ref1.current.style.display = "block";
+      props.refApp.current.style.backgroundColor = "gray";
     }
     setIsActive(!isActive);
   };
 
   const ExitButtonAll = () => {
-    if (document.getElementById("ranking").style.display === "block") {
-      document.getElementById("ranking").style.display = "none";
-      $("#App").css("background-color", "rgb(242, 242, 242, 1)");
+    if (ref1.current.style.display === "block") {
+      ref1.current.style.display = "none";
+      props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
     } else {
-      document.getElementById("ranking").style.display = "block";
-      $("#App").css("background-color", "gray");
+      ref1.current.style.display = "block";
+      props.refApp.current.style.backgroundColor = "gray";
     }
     setIsActive(!isActive);
     // let flag = false;
@@ -310,23 +299,23 @@ const Board = (props) => {
   };
 
   const PlayAgain = () => {
-    if (document.getElementById("ranking-2").style.display === "block") {
-      document.getElementById("ranking-2").style.display = "none";
-      $("#App").css("background-color", "rgb(242, 242, 242, 1)");
+    if (ref2.current.style.display === "block") {
+      ref2.current.style.display = "none";
+      props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
     } else {
-      document.getElementById("ranking-2").style.display = "block";
-      $("#App").css("background-color", "gray");
+      ref2.current.style.display = "block";
+      props.refApp.current.style.backgroundColor = "gray";
     }
     setIsActive(!isActive);
   };
 
   const ExitButtonAll2 = () => {
-    if (document.getElementById("ranking-2").style.display === "block") {
-      document.getElementById("ranking-2").style.display = "none";
-      $("#App").css("background-color", "rgb(242, 242, 242, 1)");
+    if (ref2.current.style.display === "block") {
+      ref2.current.style.display = "none";
+      props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
     } else {
-      document.getElementById("ranking-2").style.display = "block";
-      $("#App").css("background-color", "gray");
+      ref2.current.style.display = "block";
+      props.refApp.current.style.backgroundColor = "gray";
     }
     setIsActive(!isActive);
     props.setRankPlayers(
@@ -361,7 +350,7 @@ const Board = (props) => {
 
   return (
     <div className="board-main">
-      <div className="ranking" id="ranking">
+      <div className="ranking" id="ranking" ref={ref1}>
         <div className="time-2">
           Your Time:{hour}:{minute}:{second}
         </div>
@@ -388,7 +377,7 @@ const Board = (props) => {
           </div>
         </div>
       </div>
-      <div className="ranking-2" id="ranking-2">
+      <div className="ranking-2" id="ranking-2" ref={ref2}>
         <div className="time-2">
           Your Time:{hour}:{minute}:{second}
         </div>

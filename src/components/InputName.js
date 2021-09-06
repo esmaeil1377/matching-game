@@ -52,6 +52,13 @@ const InputName = (props) => {
     setName("");
   };
 
+  const ConditionalLink = ({ children, to, condition }) =>
+    !!condition && to ? <Link to={to}>{children}</Link> : <>{children}</>;
+
+  //   <ConditionalLink to="/path" condition={!isComingFromModal}
+  //   conditional link
+  // </ConditionalLink>
+
   const selectButton1 = (event) => {
     setSelected1(true);
     setSelected2(false);
