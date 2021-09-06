@@ -78,7 +78,7 @@ const Timer = (props) => {
 
   useEffect(() => {
     props.timeHandler([hour, minute, second].join(":"))
-  }, [props.isActive, hour, minute, second])
+  }, [props.isActive, hour, minute, second, props])
 
   function stopTimer() {
     // setIsActive(false);

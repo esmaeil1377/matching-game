@@ -19,7 +19,7 @@ const Board = (props) => {
     return 0;
   });
   const [endGame, setEndGame] = useState(false);
-  const [time, setTime] = useState("00:00:00")
+  const [time, setTime] = useState("00:00:00");
   const [isActive, setIsActive] = useState(true);
   const ref1 = useRef(null);
   const ref2 = useRef(null);
@@ -131,9 +131,20 @@ const Board = (props) => {
         ref2.current.style.display = "block";
         props.refApp.current.style.backgroundColor = "gray";
       }
-      setIsActive(!isActive);
+      setIsActive(false);
     }
-  }, [endGame]);
+  }, [endGame, props.refApp]);
+
+  function objectsAreSame(x, y) {
+    var objectsAreSame = true;
+    for (let i = 0; i < x.length; i++) {
+      if (x[i].flipped !== y[i].flipped) {
+        objectsAreSame = false;
+        break;
+      }
+    }
+    return objectsAreSame;
+  }
 
   useEffect(() => {
     const newCards = cards.map((card) => ({
@@ -141,8 +152,42 @@ const Board = (props) => {
       flipped:
         checkers.find((c) => c.id === card.id) || completed.includes(card.type),
     }));
-    setCards(newCards);
-  }, [checkers, completed]);
+    if (!objectsAreSame(cards, newCards)) {
+      setCards(newCards);
+    }
+    // setCards(cards => ({
+    //   cards: cards.map(
+    //     el => checkers.find((c) => c.id === el.id) || completed.includes(el.type)? { ...el, flipped: true }: el
+    //   )
+    // }))
+    // setCards(cards=> ({
+
+    //   cards: cards.map(
+    //     el => checkers.find((c) => c.id === el.id) || completed.includes(el.type)? { ...el, flipped: true }: el
+    //   )
+
+    // }))
+    // if(cards !== newCards) {
+    //   setCards(newCards);
+    // }
+    // setCards(cards.forEach(function (item) {
+    //   item.flipped = checkers.find((c) => c.id === item.id) || completed.includes(item.type)
+    // }))
+    // cards.forEach(function (item) {
+    //   item.flipped = checkers.find((c) => c.id === item.id) || completed.includes(item.type)
+    // })
+    // for(let item of cards) {
+    //   item = {
+    //     ...item,
+    //     flipped: checkers.find((c) => c.id === item.id) || completed.includes(item.type),
+    //   }
+    //   // if(checkers.find((c) => c.id === item.id) || completed.includes(item.type)) {
+    //   //   item.flipped = true
+    //   // } else {
+    //   //   item.flipped = false
+    //   // }
+    // }
+  }, [checkers, completed, cards]);
 
   const toSecond = (timeStr) => {
     const nums = timeStr.split(":");
@@ -257,14 +302,12 @@ const Board = (props) => {
   };
 
   const timeHandler = (timeInput) => {
-    setTime(timeInput)
-  }
+    setTime(timeInput);
+  };
   return (
     <div className="board-main">
       <div className="ranking" id="ranking" ref={ref1}>
-        <div className="time-2">
-          Your Time: {time}
-        </div>
+        <div className="time-2">Your Time: {time}</div>
         <div className="rank-div">
           <Table striped hover variant="gray" id="rank-table">
             <thead>
@@ -289,9 +332,7 @@ const Board = (props) => {
         </div>
       </div>
       <div className="ranking-2" id="ranking-2" ref={ref2}>
-        <div className="time-2">
-          Your Time: {time}
-        </div>
+        <div className="time-2">Your Time: {time}</div>
         <div className="rank-div">
           <Table striped hover variant="gray" id="rank-table">
             <thead>
@@ -321,7 +362,12 @@ const Board = (props) => {
         {/* <h3>timer:</h3> */}
         {/* <Timer counter={counter} setCounter={setCounter} /> */}
         {/* <Link to="/"> */}
-        <Timer players={props.players} name={props.name} isActive={isActive} timeHandler={timeHandler}/>
+        <Timer
+          players={props.players}
+          name={props.name}
+          isActive={isActive}
+          timeHandler={timeHandler}
+        />
         <Button variant="secondary" onClick={ExitButton}>
           Exit
         </Button>
