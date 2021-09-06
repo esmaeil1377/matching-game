@@ -5,18 +5,8 @@ import { useState, useEffect, useRef } from "react";
 import Timer from "./Timer";
 import Card from "./Card";
 import { Link } from "react-router-dom";
-import $ from "jquery";
-// import Button from "react-bootstrap/Button";
-// import Form from "react-bootstrap/Form";
 
 const Board = (props) => {
-  // const [cards, setCards] = useState(() => {
-  //   for (const item of props.players) {
-  //     if (item.name === props.name) {
-  //       return item.cards;
-  //     }
-  //   }
-  // });
   const [cards, setCards] = useState(props.cards);
   const [checkers, setCheckers] = useState([]);
   const [completed, setCompleted] = useState([]);
@@ -29,44 +19,8 @@ const Board = (props) => {
     return 0;
   });
   const [endGame, setEndGame] = useState(false);
-
-  const [second, setSecond] = useState(() => {
-    for (const item of props.players) {
-      if (item.name === props.name) {
-        return item.time.split(":")[2];
-      }
-    }
-    return "00";
-  });
-  const [minute, setMinute] = useState(() => {
-    for (const item of props.players) {
-      if (item.name === props.name) {
-        return item.time.split(":")[1];
-      }
-    }
-    return "00";
-  });
-  const [hour, setHour] = useState(() => {
-    for (const item of props.players) {
-      if (item.name === props.name) {
-        return item.time.split(":")[0];
-      }
-    }
-    return "00";
-  });
+  const [time, setTime] = useState("00:00:00")
   const [isActive, setIsActive] = useState(true);
-  const [counter, setCounter] = useState(() => {
-    for (const item of props.players) {
-      if (item.name === props.name) {
-        return (
-          parseInt(item.time.split(":")[2]) +
-          parseInt(item.time.split(":")[1]) * 60 +
-          parseInt(item.time.split(":")[0]) * 3600
-        );
-      }
-    }
-    return 0;
-  });
   const ref1 = useRef(null);
   const ref2 = useRef(null);
 
@@ -151,52 +105,6 @@ const Board = (props) => {
       }, time);
     }
   };
-
-  useEffect(() => {
-    let intervalId;
-
-    if (isActive) {
-      intervalId = setInterval(() => {
-        const secondCounter = counter % 60;
-        const minuteCounter = Math.floor(counter / 60);
-        const hourCounter = Math.floor(counter / 3600);
-
-        let computedSecond =
-          String(secondCounter).length === 1
-            ? `0${secondCounter}`
-            : secondCounter;
-        let computedMinute =
-          String(minuteCounter).length === 1
-            ? `0${minuteCounter}`
-            : minuteCounter;
-        let computedHour =
-          String(hourCounter).length === 1 ? `0${hourCounter}` : hourCounter;
-
-        setSecond(computedSecond);
-        setMinute(computedMinute);
-        setHour(computedHour);
-
-        setCounter((counter) => counter + 1);
-      }, 1000);
-    }
-
-    return () => clearInterval(intervalId);
-  }, [isActive, counter, second, minute, hour]);
-
-  function stopTimer() {
-    setIsActive(false);
-    // setCounter(0);
-    // setSecond("00");
-    // setMinute("00");
-    // setHour("00");
-  }
-
-  function ResetTimer() {
-    setCounter(0);
-    setSecond("00");
-    setMinute("00");
-    setHour("00");
-  }
 
   useEffect(() => {
     if (endGame === true) {
@@ -290,7 +198,7 @@ const Board = (props) => {
         name: props.name,
         cards: cards,
         score: score,
-        time: [hour, minute, second].join(":"),
+        time: time,
         end: endGame,
         similar: props.similar,
         size: props.size,
@@ -326,7 +234,7 @@ const Board = (props) => {
           name: props.name,
           cards: cards,
           score: score,
-          time: [hour, minute, second].join(":"),
+          time: time,
           end: endGame,
           similar: props.similar,
           size: props.size,
@@ -348,11 +256,14 @@ const Board = (props) => {
     });
   };
 
+  const timeHandler = (timeInput) => {
+    setTime(timeInput)
+  }
   return (
     <div className="board-main">
       <div className="ranking" id="ranking" ref={ref1}>
         <div className="time-2">
-          Your Time:{hour}:{minute}:{second}
+          Your Time: {time}
         </div>
         <div className="rank-div">
           <Table striped hover variant="gray" id="rank-table">
@@ -379,7 +290,7 @@ const Board = (props) => {
       </div>
       <div className="ranking-2" id="ranking-2" ref={ref2}>
         <div className="time-2">
-          Your Time:{hour}:{minute}:{second}
+          Your Time: {time}
         </div>
         <div className="rank-div">
           <Table striped hover variant="gray" id="rank-table">
@@ -410,16 +321,7 @@ const Board = (props) => {
         {/* <h3>timer:</h3> */}
         {/* <Timer counter={counter} setCounter={setCounter} /> */}
         {/* <Link to="/"> */}
-        <div class="container">
-          <span>Time:</span>
-          <span class="time">
-            <span class="hour">{hour}</span>
-            <span>:</span>
-            <span class="minute">{minute}</span>
-            <span>:</span>
-            <span class="second">{second}</span>
-          </span>
-        </div>
+        <Timer players={props.players} name={props.name} isActive={isActive} timeHandler={timeHandler}/>
         <Button variant="secondary" onClick={ExitButton}>
           Exit
         </Button>
