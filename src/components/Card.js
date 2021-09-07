@@ -1,5 +1,5 @@
 import React from "react";
-import empty from "../assets/images/empty.png";
+// import empty from "../assets/images/empty.png";
 const Card = (props) => {
   const { frontImg, backImg, flipped, onClick } = props;
   let img = flipped ? frontImg : backImg;

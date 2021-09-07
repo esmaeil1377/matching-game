@@ -61,12 +61,14 @@ function App() {
             return [...result, getCard(), getCard(), getCard()];
           } else if (similar === 4) {
             return [...result, getCard(), getCard(), getCard(), getCard()];
+          } else {
+            return null;
           }
         }, []);
 
         setCards(suffle(cardsT));
       });
-  }, [size, similar]);
+  }, [size, similar, name]);
 
   const nameHandler = (newName) => {
     setName(newName);

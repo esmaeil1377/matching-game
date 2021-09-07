@@ -52,8 +52,8 @@ const InputName = (props) => {
     setName("");
   };
 
-  const ConditionalLink = ({ children, to, condition }) =>
-    !!condition && to ? <Link to={to}>{children}</Link> : <>{children}</>;
+  // const ConditionalLink = ({ children, to, condition }) =>
+  //   !!condition && to ? <Link to={to}>{children}</Link> : <>{children}</>;
 
   //   <ConditionalLink to="/path" condition={!isComingFromModal}
   //   conditional link

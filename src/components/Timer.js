@@ -80,13 +80,13 @@ const Timer = (props) => {
     props.timeHandler([hour, minute, second].join(":"))
   }, [props.isActive, hour, minute, second, props])
 
-  function stopTimer() {
-    // setIsActive(false);
-    setCounter(0);
-    setSecond("00");
-    setMinute("00");
-    setHour("00");
-  }
+  // function stopTimer() {
+  //   // setIsActive(false);
+  //   setCounter(0);
+  //   setSecond("00");
+  //   setMinute("00");
+  //   setHour("00");
+  // }
 
   return (
     // <div class="container">

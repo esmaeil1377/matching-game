@@ -38,15 +38,13 @@ const Board = (props) => {
     if (cardsInCheckersMatched) {
       setCompleted([...completed, newCheckers[0].type]);
       setScore(score + props.similar);
-      // setCards(cards.filtser(card => card.type !== newCheckers[0].type))
+      // setCards(cards.filter(card => card.type !== newCheckers[0].type))
       card.done = true;
       cards.forEach(function (item) {
         if (item.type === newCheckers[0].type) {
           item.done = true;
         }
       });
-      // console.log(completed.length);
-      // console.log(props.size / props.similar);
       if (completed.length + 1 === props.size / props.similar) {
         setEndGame(true);
       }
@@ -93,13 +91,6 @@ const Board = (props) => {
     function resetCheckersAfter(time) {
       setTimeout(() => {
         if (cardsInCheckersMatched) {
-          // console.log("empty");
-          // card.done = true;
-          // cards.forEach(function (item) {
-          //   if (item.type === newCheckers[0].type) {
-          //     item.done = true;
-          //   }
-          // });
         }
         setCheckers([]);
       }, time);
@@ -155,38 +146,6 @@ const Board = (props) => {
     if (!objectsAreSame(cards, newCards)) {
       setCards(newCards);
     }
-    // setCards(cards => ({
-    //   cards: cards.map(
-    //     el => checkers.find((c) => c.id === el.id) || completed.includes(el.type)? { ...el, flipped: true }: el
-    //   )
-    // }))
-    // setCards(cards=> ({
-
-    //   cards: cards.map(
-    //     el => checkers.find((c) => c.id === el.id) || completed.includes(el.type)? { ...el, flipped: true }: el
-    //   )
-
-    // }))
-    // if(cards !== newCards) {
-    //   setCards(newCards);
-    // }
-    // setCards(cards.forEach(function (item) {
-    //   item.flipped = checkers.find((c) => c.id === item.id) || completed.includes(item.type)
-    // }))
-    // cards.forEach(function (item) {
-    //   item.flipped = checkers.find((c) => c.id === item.id) || completed.includes(item.type)
-    // })
-    // for(let item of cards) {
-    //   item = {
-    //     ...item,
-    //     flipped: checkers.find((c) => c.id === item.id) || completed.includes(item.type),
-    //   }
-    //   // if(checkers.find((c) => c.id === item.id) || completed.includes(item.type)) {
-    //   //   item.flipped = true
-    //   // } else {
-    //   //   item.flipped = false
-    //   // }
-    // }
   }, [checkers, completed, cards]);
 
   const toSecond = (timeStr) => {
@@ -206,7 +165,7 @@ const Board = (props) => {
     return 0;
   };
 
-  const ExitButton = () => {
+  const showRankDiv1 = () => {
     if (ref1.current.style.display === "block") {
       ref1.current.style.display = "none";
       props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
@@ -217,25 +176,19 @@ const Board = (props) => {
     setIsActive(!isActive);
   };
 
-  const ExitButtonAll = () => {
-    if (ref1.current.style.display === "block") {
-      ref1.current.style.display = "none";
+  const showRankDiv2 = () => {
+    if (ref2.current.style.display === "block") {
+      ref2.current.style.display = "none";
       props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
     } else {
-      ref1.current.style.display = "block";
+      ref2.current.style.display = "block";
       props.refApp.current.style.backgroundColor = "gray";
     }
     setIsActive(!isActive);
-    // let flag = false;
-    // for (const item of props.players) {
-    //   if (item.name === props.name) {
-    //     flag = true
-    //     item.cards = cards;
-    //     item.score = score;
-    //     item.time = [hour, minute, second].join(":");
-    //     item.end = endGame;
-    //   }
-    // }
+  };
+
+  const ExitButtonAll = () => {
+    showRankDiv1();
     props.setPlayers([
       ...props.players.filter((player) => player.name !== props.name),
       {
@@ -251,26 +204,8 @@ const Board = (props) => {
     ]);
   };
 
-  const PlayAgain = () => {
-    if (ref2.current.style.display === "block") {
-      ref2.current.style.display = "none";
-      props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
-    } else {
-      ref2.current.style.display = "block";
-      props.refApp.current.style.backgroundColor = "gray";
-    }
-    setIsActive(!isActive);
-  };
-
   const ExitButtonAll2 = () => {
-    if (ref2.current.style.display === "block") {
-      ref2.current.style.display = "none";
-      props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
-    } else {
-      ref2.current.style.display = "block";
-      props.refApp.current.style.backgroundColor = "gray";
-    }
-    setIsActive(!isActive);
+    showRankDiv2();
     props.setRankPlayers(
       [
         ...props.rankPlayers.filter((player) => player.name !== props.name),
@@ -290,7 +225,6 @@ const Board = (props) => {
 
   const renderTableData = () => {
     return props.rankPlayers.map((item, index) => {
-      //  const { id, name, age, email } = student //destructuring
       return (
         <tr>
           <td className="highLight">{index + 1}</td>
@@ -320,7 +254,7 @@ const Board = (props) => {
             <tbody>{renderTableData()}</tbody>
           </Table>
           <div className="rank-buttons">
-            <Button variant="dark" onClick={ExitButton}>
+            <Button variant="dark" onClick={showRankDiv1}>
               CUNTINUE
             </Button>
             <Link to="/">
@@ -345,7 +279,7 @@ const Board = (props) => {
             <tbody>{renderTableData()}</tbody>
           </Table>
           <div className="rank-buttons">
-            <Button variant="dark" onClick={PlayAgain}>
+            <Button variant="dark" onClick={showRankDiv2}>
               PLAY AGAIN
             </Button>
             <Link to="/">
@@ -368,7 +302,7 @@ const Board = (props) => {
           isActive={isActive}
           timeHandler={timeHandler}
         />
-        <Button variant="secondary" onClick={ExitButton}>
+        <Button variant="secondary" onClick={showRankDiv1}>
           Exit
         </Button>
         <h5>Score: {score}</h5>
