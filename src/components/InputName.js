@@ -20,7 +20,7 @@ const InputName = (props) => {
       event.preventDefault();
       event.stopPropagation();
     }
-    // props.nameHandler(name);
+    props.nameHandler(name);
     switch (true) {
       case selected1:
         props.sizeHandler(24);
@@ -47,7 +47,7 @@ const InputName = (props) => {
       default:
         break;
     }
-    props.nameHandler(name);
+    // props.nameHandler(name);
     // console.log(name);
     setName("");
   };

@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import backImg from "./assets/images/back.png";
-import RankTable from "./components/RankTable"
+import RankTable from "./components/RankTable";
 function suffle(arr) {
   let len = arr.length;
   for (let i = 0; i < len; i++) {
@@ -33,42 +33,47 @@ function App() {
   const LOCAL_SIMILAR_STORAGE_KEY = "similar";
   const [similar, setSimilar] = useState(2);
   const [cards, setCards] = useState([]);
+  const [changePlayer, setChangePlayer] = useState(false);
   const refApp = useRef(null);
   useEffect(() => {
-    axios
-      .get(
-        `https://sahabino-front.herokuapp.com/placeholder/get-by-size?size=${size/similar}`,
-        {
-          headers: { "Access-Control-Allow-Origin": "*" },
-          responseType: "json",
-        }
-      )
-      .then((res) => {
-        // setImageData(res.data);
-        let id2 = 0;
-        const cardsT = res.data.reduce((result, item) => {
-          const getCard = () => ({
-            id: id2++,
-            type: item.name.slice(0, item.name.indexOf(".")),
-            done: false,
-            backImg: backImg,
-            frontImg: item.imageUrl,
-            flipped: false,
-          });
-          if (similar === 2) {
-            return [...result, getCard(), getCard()];
-          } else if (similar === 3) {
-            return [...result, getCard(), getCard(), getCard()];
-          } else if (similar === 4) {
-            return [...result, getCard(), getCard(), getCard(), getCard()];
-          } else {
-            return null;
+    if (changePlayer) {
+      axios
+        .get(
+          `https://sahabino-front.herokuapp.com/placeholder/get-by-size?size=${size/similar}`,
+          {
+            headers: { "Access-Control-Allow-Origin": "*" },
+            responseType: "json",
           }
-        }, []);
-
-        setCards(suffle(cardsT));
-      });
-  }, [size, similar, name]);
+        )
+        .then((res) => {
+          // setImageData(res.data);
+          let id2 = 0;
+          const cardsT = res.data.reduce((result, item) => {
+            const getCard = () => ({
+              id: id2++,
+              type: item.name.slice(0, item.name.indexOf(".")),
+              done: false,
+              backImg: backImg,
+              frontImg: item.imageUrl,
+              flipped: false,
+            });
+            if (similar === 2) {
+              return [...result, getCard(), getCard()];
+            } else if (similar === 3) {
+              return [...result, getCard(), getCard(), getCard()];
+            } else if (similar === 4) {
+              return [...result, getCard(), getCard(), getCard(), getCard()];
+            } else {
+              return null;
+            }
+          }, []);
+          // if(cards === null) {
+          console.log("new card");
+          setCards(suffle(cardsT));
+          // }
+        });
+    }
+  }, [size, similar, name, changePlayer]);
 
   const nameHandler = (newName) => {
     setName(newName);
@@ -84,14 +89,20 @@ function App() {
     //     }
     //   }
     // })
+    setChangePlayer(false)
+    let flag = true;
     for (const item of players) {
       if (item.name === newName) {
-        console.log("same");
-        console.log(item.cards)
-        setCards(item.cards)
-        setSimilar(item.similar)
-        setSize(item.size)
+        console.log(newName + "same");
+        console.log(item.cards);
+        setCards(item.cards);
+        setSimilar(item.similar);
+        setSize(item.size);
+        flag = false;
       }
+    }
+    if(flag) {
+      setChangePlayer(true);
     }
   };
 
@@ -170,12 +181,12 @@ function App() {
             exact
             component={() => (
               <div>
-              <InputName
-                nameHandler={nameHandler}
-                sizeHandler={sizeHandler}
-                similarHandler={similarHandler}
-              />
-              <RankTable rankPlayers={rankPlayers} />
+                <InputName
+                  nameHandler={nameHandler}
+                  sizeHandler={sizeHandler}
+                  similarHandler={similarHandler}
+                />
+                <RankTable rankPlayers={rankPlayers} />
               </div>
             )}
           />

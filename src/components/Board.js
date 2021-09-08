@@ -45,7 +45,10 @@ const Board = (props) => {
           item.done = true;
         }
       });
-      if (completed.length + 1 === props.size / props.similar) {
+      // if (completed.length + 1 === props.size / props.similar) {
+      //   setEndGame(true);
+      // } 
+      if (cards.filter(e => e.done === false).length === 0) {
         setEndGame(true);
       }
 
