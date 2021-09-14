@@ -20,33 +20,64 @@ const InputName = (props) => {
       event.preventDefault();
       event.stopPropagation();
     }
-    props.nameHandler(name);
+    // props.nameHandler(name);
     switch (true) {
-      case selected1:
-        props.sizeHandler(24);
+      case selected1 && similar1:
+        props.nameHandler(name, 24, 2);
         break;
-      case selected2:
-        props.sizeHandler(36);
+      case selected1 && similar2:
+        props.nameHandler(name, 24, 3);
         break;
-      case selected3:
-        props.sizeHandler(48);
+      case selected1 && similar3:
+        props.nameHandler(name, 24, 4);
+        break;
+      case selected2 && similar1:
+        props.nameHandler(name, 36, 2);
+        break;
+      case selected2 && similar2:
+        props.nameHandler(name, 36, 3);
+        break;
+      case selected2 && similar3:
+        props.nameHandler(name, 36, 4);
+        break;
+      case selected3 && similar1:
+        props.nameHandler(name, 48, 2);
+        break;
+      case selected3 && similar2:
+        props.nameHandler(name, 48, 3);
+        break;
+      case selected3 && similar3:
+        props.nameHandler(name, 48, 4);
         break;
       default:
         break;
     }
-    switch (true) {
-      case similar1:
-        props.similarHandler(2);
-        break;
-      case similar2:
-        props.similarHandler(3);
-        break;
-      case similar3:
-        props.similarHandler(4);
-        break;
-      default:
-        break;
-    }
+    // switch (true) {
+    //   case selected1:
+    //     props.sizeHandler(24);
+    //     break;
+    //   case selected2:
+    //     props.sizeHandler(36);
+    //     break;
+    //   case selected3:
+    //     props.sizeHandler(48);
+    //     break;
+    //   default:
+    //     break;
+    // }
+    // switch (true) {
+    //   case similar1:
+    //     props.similarHandler(2);
+    //     break;
+    //   case similar2:
+    //     props.similarHandler(3);
+    //     break;
+    //   case similar3:
+    //     props.similarHandler(4);
+    //     break;
+    //   default:
+    //     break;
+    // }
     // props.nameHandler(name);
     // console.log(name);
     setName("");

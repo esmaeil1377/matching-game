@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Timer from "./Timer";
 import Card from "./Card";
 import { Link } from "react-router-dom";
@@ -21,8 +21,10 @@ const Board = (props) => {
   const [endGame, setEndGame] = useState(false);
   const [time, setTime] = useState("00:00:00");
   const [isActive, setIsActive] = useState(true);
-  const ref1 = useRef(null);
-  const ref2 = useRef(null);
+  const [div1State, setDiv1State] = useState(false);
+  const [div2State, setDiv2State] = useState(false);
+  // const ref1 = useRef(null);
+  // const ref2 = useRef(null);
 
   const onCardClick = (card) => () => {
     document.querySelector(".Card").classList.toggle("is-flipped");
@@ -47,8 +49,8 @@ const Board = (props) => {
       });
       // if (completed.length + 1 === props.size / props.similar) {
       //   setEndGame(true);
-      // } 
-      if (cards.filter(e => e.done === false).length === 0) {
+      // }
+      if (cards.filter((e) => e.done === false).length === 0) {
         setEndGame(true);
       }
 
@@ -118,16 +120,20 @@ const Board = (props) => {
       //   ].sort(compareTime)
       // );
       console.log(endGame);
-      if (ref2.current.style.display === "block") {
-        ref2.current.style.display = "none";
-        props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
-      } else {
-        ref2.current.style.display = "block";
-        props.refApp.current.style.backgroundColor = "gray";
-      }
+      // setDiv2State(true);
+      // props.setDivApp(true);
+      setDiv2State(true);
+      props.refApp.current.style.backgroundColor = "gray";
+      // if (!div2State) {
+      //   setDiv2State(true);
+      //   props.refApp.current.style.backgroundColor = "gray";
+      // } else {
+      //   setDiv2State(false);
+      //   props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
+      // }
       setIsActive(false);
     }
-  }, [endGame, props.refApp]);
+  }, [endGame, div2State, props]);
 
   function objectsAreSame(x, y) {
     var objectsAreSame = true;
@@ -169,23 +175,34 @@ const Board = (props) => {
   };
 
   const showRankDiv1 = () => {
-    if (ref1.current.style.display === "block") {
-      ref1.current.style.display = "none";
-      props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
-    } else {
-      ref1.current.style.display = "block";
+    // if (ref1.current.style.display === "block") {
+    //   ref1.current.style.display = "none";
+    //   props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
+    // } else {
+    //   ref1.current.style.display = "block";
+    //   props.refApp.current.style.backgroundColor = "gray";
+    // }
+    if (!div1State) {
+      setDiv1State(true);
       props.refApp.current.style.backgroundColor = "gray";
+      // props.setDivApp(true);
+    } else {
+      setDiv1State(false);
+      // props.setDivApp(false);
+      props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
     }
     setIsActive(!isActive);
   };
 
   const showRankDiv2 = () => {
-    if (ref2.current.style.display === "block") {
-      ref2.current.style.display = "none";
-      props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
-    } else {
-      ref2.current.style.display = "block";
+    if (!div2State) {
+      setDiv2State(true);
       props.refApp.current.style.backgroundColor = "gray";
+      // props.setDivApp(true);
+    } else {
+      setDiv2State(false);
+      // props.setDivApp(false);
+      props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
     }
     setIsActive(!isActive);
   };
@@ -243,7 +260,13 @@ const Board = (props) => {
   };
   return (
     <div className="board-main">
-      <div className="ranking" id="ranking" ref={ref1}>
+      <div
+        className="ranking"
+        id="ranking"
+        style={{
+          display: div1State === false ? "none" : "block",
+        }}
+      >
         <div className="time-2">Your Time: {time}</div>
         <div className="rank-div">
           <Table striped hover variant="gray" id="rank-table">
@@ -268,7 +291,13 @@ const Board = (props) => {
           </div>
         </div>
       </div>
-      <div className="ranking-2" id="ranking-2" ref={ref2}>
+      <div
+        className="ranking-2"
+        id="ranking-2"
+        style={{
+          display: div2State === false ? "none" : "block",
+        }}
+      >
         <div className="time-2">Your Time: {time}</div>
         <div className="rank-div">
           <Table striped hover variant="gray" id="rank-table">

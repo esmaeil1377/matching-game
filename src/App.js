@@ -35,11 +35,16 @@ function App() {
   const [cards, setCards] = useState([]);
   const [changePlayer, setChangePlayer] = useState(false);
   const refApp = useRef(null);
+  const [divApp, setDivApp] = useState(false);
+  // const [div1State, setDiv1State] = useState(false);
+  // const [div2State, setDiv2State] = useState(false);
   useEffect(() => {
     if (changePlayer) {
       axios
         .get(
-          `https://sahabino-front.herokuapp.com/placeholder/get-by-size?size=${size/similar}`,
+          `https://sahabino-front.herokuapp.com/placeholder/get-by-size?size=${
+            size / similar
+          }`,
           {
             headers: { "Access-Control-Allow-Origin": "*" },
             responseType: "json",
@@ -75,7 +80,11 @@ function App() {
     }
   }, [size, similar, name, changePlayer]);
 
-  const nameHandler = (newName) => {
+  const divAppHandler = (newBool) => {
+    setDivApp(newBool);
+  };
+
+  const nameHandler = (newName, newSize, newSimilar) => {
     setName(newName);
     // setCards(players.map((item) => {
     //   if(item.name === newName) {
@@ -89,29 +98,35 @@ function App() {
     //     }
     //   }
     // })
-    setChangePlayer(false)
+    setChangePlayer(false);
     let flag = true;
     for (const item of players) {
       if (item.name === newName) {
-        console.log(newName + "same");
+        console.log(newName + " same");
         console.log(item.cards);
         setCards(item.cards);
-        setSimilar(item.similar);
-        setSize(item.size);
+        setSimilar(item.similar); // todo : it is not work
+        setSize(item.size); // todo : it is not work
         flag = false;
       }
     }
-    if(flag) {
+    if (flag) {
+      setSimilar(newSimilar);
+      setSize(newSize);
       setChangePlayer(true);
     }
   };
 
   const sizeHandler = (newSize) => {
-    setSize(newSize);
+    if (changePlayer) {
+      setSize(newSize);
+    }
   };
 
   const similarHandler = (newSimilar) => {
-    setSimilar(newSimilar);
+    if (changePlayer) {
+      setSimilar(newSimilar);
+    }
   };
 
   useEffect(() => {
@@ -173,7 +188,14 @@ function App() {
   }, [rankPlayers]);
 
   return (
-    <div className="App" id="App" ref={refApp}>
+    <div
+      className="App"
+      id="App"
+      ref={refApp}
+      // style={{
+      //   backgroundColor: divApp === false ? `rgb(242, 242, 242, 1)` : "gray",
+      // }}
+    >
       <Router>
         <Switch>
           <Route
@@ -203,6 +225,13 @@ function App() {
                 rankPlayers={rankPlayers}
                 setRankPlayers={setRankPlayers}
                 refApp={refApp}
+                // setDivApp={setDivApp}
+                // divApp={divApp}
+                // div1State={div1State}
+                // setDiv1State={setDiv1State}
+                // div2State={div2State}
+                // setDiv2State={setDiv2State}
+                // divAppHandler={divAppHandler}
               />
             )}
           />
