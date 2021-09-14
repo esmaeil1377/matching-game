@@ -2,14 +2,34 @@ import Table from "react-bootstrap/Table";
 const RankTable = (props) => {
   const renderTableData = () => {
     return props.rankPlayers.map((item, index) => {
-      //  const { id, name, age, email } = student //destructuring
-      return (
-        <tr>
-          <td className="highLight">{index + 1}</td>
-          <td>{item.name}</td>
-          <td>{item.time}</td>
-        </tr>
-      );
+      if (index < 3) {
+        return (
+          <tr>
+            <td className="highLight">{index + 1}</td>
+            <td>{item.name}</td>
+            <td>{item.time}</td>
+          </tr>
+        );
+      } else {
+        if (index === 4) {
+          return (
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          );
+        }
+        if (index > 3 && item.name === props.name) {
+          return (
+            <tr>
+              <td className="highLight">{index + 1}</td>
+              <td>{item.name}</td>
+              <td>{item.time}</td>
+            </tr>
+          );
+        }
+      }
     });
   };
   return (

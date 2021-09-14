@@ -208,7 +208,7 @@ function App() {
                   sizeHandler={sizeHandler}
                   similarHandler={similarHandler}
                 />
-                <RankTable rankPlayers={rankPlayers} />
+                <RankTable rankPlayers={rankPlayers} name={name} />
               </div>
             )}
           />

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Timer from "./Timer";
 import Card from "./Card";
 import { Link } from "react-router-dom";
+import RankTable from "./RankTable";
 
 const Board = (props) => {
   const [cards, setCards] = useState(props.cards);
@@ -241,18 +242,35 @@ const Board = (props) => {
         },
       ].sort(compareTime)
     );
+    // props.setPlayers(
+    //   ...props.players.filter((player) => player.name !== props.name)
+    // );
   };
 
   const renderTableData = () => {
+    // if (props.rankPlayers.length < 5) {
+    //   return props.rankPlayers.map((item, index) => {
+    //     return (
+    //       <tr>
+    //         <td className="highLight">{index + 1}</td>
+    //         <td>{item.name}</td>
+    //         <td>{item.time}</td>
+    //       </tr>
+    //     );
+    //   });
+    // } else {
     return props.rankPlayers.map((item, index) => {
-      return (
-        <tr>
-          <td className="highLight">{index + 1}</td>
-          <td>{item.name}</td>
-          <td>{item.time}</td>
-        </tr>
-      );
+      if (index < 3) {
+        return (
+          <tr>
+            <td className="highLight">{index + 1}</td>
+            <td>{item.name}</td>
+            <td>{item.time}</td>
+          </tr>
+        );
+      }
     });
+    // }
   };
 
   const timeHandler = (timeInput) => {
@@ -269,7 +287,7 @@ const Board = (props) => {
       >
         <div className="time-2">Your Time: {time}</div>
         <div className="rank-div">
-          <Table striped hover variant="gray" id="rank-table">
+          {/* <Table striped hover variant="gray" id="rank-table">
             <thead>
               <tr>
                 <th>Rate</th>
@@ -278,7 +296,8 @@ const Board = (props) => {
               </tr>
             </thead>
             <tbody>{renderTableData()}</tbody>
-          </Table>
+          </Table> */}
+          <RankTable rankPlayers={props.rankPlayers} name={props.name} />
           <div className="rank-buttons">
             <Button variant="dark" onClick={showRankDiv1}>
               CUNTINUE
@@ -300,7 +319,7 @@ const Board = (props) => {
       >
         <div className="time-2">Your Time: {time}</div>
         <div className="rank-div">
-          <Table striped hover variant="gray" id="rank-table">
+          {/* <Table striped hover variant="gray" id="rank-table">
             <thead>
               <tr>
                 <th>Rate</th>
@@ -309,7 +328,8 @@ const Board = (props) => {
               </tr>
             </thead>
             <tbody>{renderTableData()}</tbody>
-          </Table>
+          </Table> */}
+          <RankTable rankPlayers={props.rankPlayers} />
           <div className="rank-buttons">
             <Button variant="dark" onClick={showRankDiv2}>
               PLAY AGAIN
