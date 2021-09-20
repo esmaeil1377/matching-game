@@ -1,6 +1,7 @@
 import Table from "react-bootstrap/Table";
 const RankTable = (props) => {
   const renderTableData = () => {
+    // eslint-disable-next-line
     return props.rankPlayers.map((item, index) => {
       if (index < 3) {
         return (

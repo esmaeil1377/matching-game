@@ -35,7 +35,7 @@ function App() {
   const [cards, setCards] = useState([]);
   const [changePlayer, setChangePlayer] = useState(false);
   const refApp = useRef(null);
-  const [divApp, setDivApp] = useState(false);
+  // const [divApp, setDivApp] = useState(false);
   // const [div1State, setDiv1State] = useState(false);
   // const [div2State, setDiv2State] = useState(false);
   useEffect(() => {
@@ -80,9 +80,9 @@ function App() {
     }
   }, [size, similar, name, changePlayer]);
 
-  const divAppHandler = (newBool) => {
-    setDivApp(newBool);
-  };
+  // const divAppHandler = (newBool) => {
+  //   setDivApp(newBool);
+  // };
 
   const nameHandler = (newName, newSize, newSimilar) => {
     setName(newName);
@@ -105,8 +105,8 @@ function App() {
         console.log(newName + " same");
         console.log(item.cards);
         setCards(item.cards);
-        setSimilar(item.similar); // todo : it is not work
-        setSize(item.size); // todo : it is not work
+        setSimilar(item.similar);
+        setSize(item.size);
         flag = false;
       }
     }
@@ -208,7 +208,9 @@ function App() {
                   sizeHandler={sizeHandler}
                   similarHandler={similarHandler}
                 />
-                <RankTable rankPlayers={rankPlayers} name={name} />
+                <div className="table-main-main">
+                  <RankTable rankPlayers={rankPlayers} name={name} />
+                </div>
               </div>
             )}
           />

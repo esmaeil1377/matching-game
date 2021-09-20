@@ -1,4 +1,4 @@
-.App { 
+.App {
   /* text-align: center;
   max-width: 50%;
   margin: auto; */
@@ -9,18 +9,16 @@
 }
 
 * {
-  font-family: 'Varela Round', sans-serif;
+  font-family: "Varela Round", sans-serif;
 }
 html {
   min-height: 100vh;
 }
 
 body {
-   margin:0;
-   min-height: 100vh;
-   
-  }
-
+  margin: 0;
+  min-height: 100vh;
+}
 
 #root {
   top: 0;
@@ -31,10 +29,10 @@ body {
 .name-main {
   padding-top: 25px;
   min-height: 150px;
-  left: 0; 
-  right: 0; 
-  margin-left: auto; 
-  margin-right: auto; 
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
   padding-top: 25px;
@@ -45,13 +43,19 @@ body {
 .table-main {
   padding-top: 10px;
   min-height: 200px;
-  left: 0; 
-  right: 0; 
-  margin-left: auto; 
-  margin-right: auto; 
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
   padding-top: 20px;
   padding-bottom: 10px;
+  /* width: 50%; */
+}
+
+.table-main-main {
+  margin-left: auto;
+  margin-right: auto;
   width: 50%;
 }
 
@@ -73,7 +77,6 @@ body {
   margin: auto 0;
 } */
 
-
 .board-main {
   /* padding-top: 50px; */
   min-height: 500px;
@@ -94,15 +97,15 @@ body {
   margin: auto;
 }
 
-.Card{
+.Card {
   flex: 1;
 }
 
-.Card:hover{
+.Card:hover {
   cursor: pointer;
 }
 
-.Card img{
+.Card img {
   width: 100px;
   height: 100px;
 }
@@ -142,11 +145,11 @@ body {
 
 .ranking {
   display: none;
-  position: absolute; 
-  left: 0; 
-  right: 0; 
-  margin-left: auto; 
-  margin-right: auto; 
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
   width: 40%;
   height: 50%;
   z-index: 1;
@@ -155,11 +158,11 @@ body {
 
 .ranking-2 {
   display: none;
-  position: absolute; 
-  left: 0; 
-  right: 0; 
-  margin-left: auto; 
-  margin-right: auto; 
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
   width: 40%;
   height: 50%;
   z-index: 1;
@@ -182,16 +185,16 @@ body {
 }
 
 .time-2 {
-  font-weight:normal;
+  font-weight: normal;
   color: #82ff1c;
-  font-family: 'Raleway',sans-serif;
-  line-height: 36px; 
-  margin: 0 0 24px; 
+  font-family: "Raleway", sans-serif;
+  line-height: 36px;
+  margin: 0 0 24px;
   text-align: center;
   font-size: 36px;
-	line-height: 42px;
-	text-transform: uppercase;
-	text-shadow: 0 2px white, 0 3px #777;
+  line-height: 42px;
+  text-transform: uppercase;
+  text-shadow: 0 2px white, 0 3px #777;
 }
 
 .button-label1 {

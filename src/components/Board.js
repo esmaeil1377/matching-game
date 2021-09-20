@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import Table from "react-bootstrap/Table";
+// import Table from "react-bootstrap/Table";
 import { useState, useEffect } from "react";
 import Timer from "./Timer";
 import Card from "./Card";
@@ -247,31 +247,31 @@ const Board = (props) => {
     // );
   };
 
-  const renderTableData = () => {
-    // if (props.rankPlayers.length < 5) {
-    //   return props.rankPlayers.map((item, index) => {
-    //     return (
-    //       <tr>
-    //         <td className="highLight">{index + 1}</td>
-    //         <td>{item.name}</td>
-    //         <td>{item.time}</td>
-    //       </tr>
-    //     );
-    //   });
-    // } else {
-    return props.rankPlayers.map((item, index) => {
-      if (index < 3) {
-        return (
-          <tr>
-            <td className="highLight">{index + 1}</td>
-            <td>{item.name}</td>
-            <td>{item.time}</td>
-          </tr>
-        );
-      }
-    });
-    // }
-  };
+  // const renderTableData = () => {
+  //   // if (props.rankPlayers.length < 5) {
+  //   //   return props.rankPlayers.map((item, index) => {
+  //   //     return (
+  //   //       <tr>
+  //   //         <td className="highLight">{index + 1}</td>
+  //   //         <td>{item.name}</td>
+  //   //         <td>{item.time}</td>
+  //   //       </tr>
+  //   //     );
+  //   //   });
+  //   // } else {
+  //   return props.rankPlayers.map((item, index) => {
+  //     if (index < 3) {
+  //       return (
+  //         <tr>
+  //           <td className="highLight">{index + 1}</td>
+  //           <td>{item.name}</td>
+  //           <td>{item.time}</td>
+  //         </tr>
+  //       );
+  //     }
+  //   });
+  //   // }
+  // };
 
   const timeHandler = (timeInput) => {
     setTime(timeInput);
@@ -329,7 +329,7 @@ const Board = (props) => {
             </thead>
             <tbody>{renderTableData()}</tbody>
           </Table> */}
-          <RankTable rankPlayers={props.rankPlayers} />
+          <RankTable rankPlayers={props.rankPlayers} name={props.name} />
           <div className="rank-buttons">
             <Button variant="dark" onClick={showRankDiv2}>
               PLAY AGAIN
