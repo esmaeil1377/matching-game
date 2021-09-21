@@ -52,34 +52,6 @@ const InputName = (props) => {
       default:
         break;
     }
-    // switch (true) {
-    //   case selected1:
-    //     props.sizeHandler(24);
-    //     break;
-    //   case selected2:
-    //     props.sizeHandler(36);
-    //     break;
-    //   case selected3:
-    //     props.sizeHandler(48);
-    //     break;
-    //   default:
-    //     break;
-    // }
-    // switch (true) {
-    //   case similar1:
-    //     props.similarHandler(2);
-    //     break;
-    //   case similar2:
-    //     props.similarHandler(3);
-    //     break;
-    //   case similar3:
-    //     props.similarHandler(4);
-    //     break;
-    //   default:
-    //     break;
-    // }
-    // props.nameHandler(name);
-    // console.log(name);
     setName("");
   };
 

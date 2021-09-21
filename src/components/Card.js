@@ -1,13 +1,9 @@
 import React from "react";
-// import empty from "../assets/images/empty.png";
 const Card = (props) => {
   const { frontImg, backImg, flipped, onClick } = props;
   let img = flipped ? frontImg : backImg;
-  if(props.done) {
-    // setTimeout(() => {
-    //   img = empty;
-    // }, 1000);
-    img = frontImg
+  if (props.done) {
+    img = frontImg;
   } else {
     img = flipped ? frontImg : backImg;
   }

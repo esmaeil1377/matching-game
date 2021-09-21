@@ -12,7 +12,7 @@ const RankTable = (props) => {
           </tr>
         );
       } else {
-        if (index === 4) {
+        if (index === 3) {
           return (
             <tr>
               <td>...</td>
@@ -21,7 +21,7 @@ const RankTable = (props) => {
             </tr>
           );
         }
-        if (index > 3 && item.name === props.name) {
+        if (index > 2 && item.name === props.name) {
           return (
             <tr>
               <td className="highLight">{index + 1}</td>

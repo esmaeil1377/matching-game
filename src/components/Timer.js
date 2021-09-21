@@ -2,11 +2,6 @@ import React, { useState, useEffect } from "react";
 // import "./styles.css";
 
 const Timer = (props) => {
-  // const [second, setSecond] = useState("00");
-  // const [minute, setMinute] = useState("00");
-  // const [hour, setHour] = useState("00");
-  // const [isActive, setIsActive] = useState(true);
-  // const [counter, setCounter] = useState(0);
   const [second, setSecond] = useState(() => {
     for (const item of props.players) {
       if (item.name === props.name) {
@@ -80,25 +75,7 @@ const Timer = (props) => {
     props.timeHandler([hour, minute, second].join(":"));
   }, [props.isActive, hour, minute, second, props]);
 
-  // function stopTimer() {
-  //   // setIsActive(false);
-  //   setCounter(0);
-  //   setSecond("00");
-  //   setMinute("00");
-  //   setHour("00");
-  // }
-
   return (
-    // <div class="container">
-    //   <span>Time:</span>
-    //   <span class="time">
-    //     <span class="hour">{hour}</span>
-    //     <span>:</span>
-    //     <span class="minute">{minute}</span>
-    //     <span>:</span>
-    //     <span class="second">{second}</span>
-    //   </span>
-    // </div>
     <div class="container">
       <span>Time:</span>
       <span class="time">

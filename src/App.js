@@ -8,7 +8,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import backImg from "./assets/images/back.png";
 import RankTable from "./components/RankTable";
-function suffle(arr) {
+function shuffle(arr) {
   let len = arr.length;
   for (let i = 0; i < len; i++) {
     let randomIdx = Math.floor(Math.random() * len);
@@ -27,7 +27,6 @@ function App() {
   const [rankPlayers, setRankPlayers] = useState([]);
   const LOCAL_NAME_STORAGE_KEY = "name";
   const [name, setName] = useState("");
-  // const [imageData, setImageData] = useState([]);
   const LOCAL_SIZE_STORAGE_KEY = "size";
   const [size, setSize] = useState(24);
   const LOCAL_SIMILAR_STORAGE_KEY = "similar";
@@ -51,7 +50,6 @@ function App() {
           }
         )
         .then((res) => {
-          // setImageData(res.data);
           let id2 = 0;
           const cardsT = res.data.reduce((result, item) => {
             const getCard = () => ({
@@ -72,10 +70,8 @@ function App() {
               return null;
             }
           }, []);
-          // if(cards === null) {
           console.log("new card");
-          setCards(suffle(cardsT));
-          // }
+          setCards(shuffle(cardsT));
         });
     }
   }, [size, similar, name, changePlayer]);
@@ -86,18 +82,6 @@ function App() {
 
   const nameHandler = (newName, newSize, newSimilar) => {
     setName(newName);
-    // setCards(players.map((item) => {
-    //   if(item.name === newName) {
-    //     return item.cards;
-    //   }
-    // }))
-    // setCards(() => {
-    //   for (const item of players) {
-    //     if (item.name === newName) {
-    //       return item.cards;
-    //     }
-    //   }
-    // })
     setChangePlayer(false);
     let flag = true;
     for (const item of players) {

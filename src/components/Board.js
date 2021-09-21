@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-// import Table from "react-bootstrap/Table";
 import { useState, useEffect } from "react";
 import Timer from "./Timer";
 import Card from "./Card";
@@ -24,8 +23,6 @@ const Board = (props) => {
   const [isActive, setIsActive] = useState(true);
   const [div1State, setDiv1State] = useState(false);
   const [div2State, setDiv2State] = useState(false);
-  // const ref1 = useRef(null);
-  // const ref2 = useRef(null);
 
   const onCardClick = (card) => () => {
     document.querySelector(".Card").classList.toggle("is-flipped");
@@ -41,16 +38,12 @@ const Board = (props) => {
     if (cardsInCheckersMatched) {
       setCompleted([...completed, newCheckers[0].type]);
       setScore(score + props.similar);
-      // setCards(cards.filter(card => card.type !== newCheckers[0].type))
       card.done = true;
       cards.forEach(function (item) {
         if (item.type === newCheckers[0].type) {
           item.done = true;
         }
       });
-      // if (completed.length + 1 === props.size / props.similar) {
-      //   setEndGame(true);
-      // }
       if (cards.filter((e) => e.done === false).length === 0) {
         setEndGame(true);
       }
@@ -105,33 +98,9 @@ const Board = (props) => {
 
   useEffect(() => {
     if (endGame === true) {
-      // props.setRankPlayers(
-      //   [
-      //     ...props.rankPlayers.filter((player) => player.name !== props.name),
-      //     {
-      //       id: Math.random() * 1000,
-      //       name: props.name,
-      //       cards: cards,
-      //       score: score,
-      //       time: [hour, minute, second].join(":"),
-      //       end: endGame,
-      //       similar: props.similar,
-      //       size: props.size,
-      //     },
-      //   ].sort(compareTime)
-      // );
       console.log(endGame);
-      // setDiv2State(true);
-      // props.setDivApp(true);
       setDiv2State(true);
       props.refApp.current.style.backgroundColor = "gray";
-      // if (!div2State) {
-      //   setDiv2State(true);
-      //   props.refApp.current.style.backgroundColor = "gray";
-      // } else {
-      //   setDiv2State(false);
-      //   props.refApp.current.style.backgroundColor = `rgb(242, 242, 242, 1)`;
-      // }
       setIsActive(false);
     }
   }, [endGame, div2State, props]);
@@ -242,37 +211,7 @@ const Board = (props) => {
         },
       ].sort(compareTime)
     );
-    // props.setPlayers(
-    //   ...props.players.filter((player) => player.name !== props.name)
-    // );
   };
-
-  // const renderTableData = () => {
-  //   // if (props.rankPlayers.length < 5) {
-  //   //   return props.rankPlayers.map((item, index) => {
-  //   //     return (
-  //   //       <tr>
-  //   //         <td className="highLight">{index + 1}</td>
-  //   //         <td>{item.name}</td>
-  //   //         <td>{item.time}</td>
-  //   //       </tr>
-  //   //     );
-  //   //   });
-  //   // } else {
-  //   return props.rankPlayers.map((item, index) => {
-  //     if (index < 3) {
-  //       return (
-  //         <tr>
-  //           <td className="highLight">{index + 1}</td>
-  //           <td>{item.name}</td>
-  //           <td>{item.time}</td>
-  //         </tr>
-  //       );
-  //     }
-  //   });
-  //   // }
-  // };
-
   const timeHandler = (timeInput) => {
     setTime(timeInput);
   };
@@ -287,16 +226,6 @@ const Board = (props) => {
       >
         <div className="time-2">Your Time: {time}</div>
         <div className="rank-div">
-          {/* <Table striped hover variant="gray" id="rank-table">
-            <thead>
-              <tr>
-                <th>Rate</th>
-                <th>Name</th>
-                <th colSpan="2">Time</th>
-              </tr>
-            </thead>
-            <tbody>{renderTableData()}</tbody>
-          </Table> */}
           <RankTable rankPlayers={props.rankPlayers} name={props.name} />
           <div className="rank-buttons">
             <Button variant="dark" onClick={showRankDiv1}>
@@ -319,16 +248,6 @@ const Board = (props) => {
       >
         <div className="time-2">Your Time: {time}</div>
         <div className="rank-div">
-          {/* <Table striped hover variant="gray" id="rank-table">
-            <thead>
-              <tr>
-                <th>Rate</th>
-                <th>Name</th>
-                <th colSpan="2">Time</th>
-              </tr>
-            </thead>
-            <tbody>{renderTableData()}</tbody>
-          </Table> */}
           <RankTable rankPlayers={props.rankPlayers} name={props.name} />
           <div className="rank-buttons">
             <Button variant="dark" onClick={showRankDiv2}>
@@ -345,9 +264,6 @@ const Board = (props) => {
       <div className="board-name">
         <h3 style={{ textAlign: "left", margin: "auto 0" }}>Matching Game</h3>
         <h4 style={{ textAlign: "left", margin: "auto 0" }}>{props.name}</h4>
-        {/* <h3>timer:</h3> */}
-        {/* <Timer counter={counter} setCounter={setCounter} /> */}
-        {/* <Link to="/"> */}
         <Timer
           players={props.players}
           name={props.name}
